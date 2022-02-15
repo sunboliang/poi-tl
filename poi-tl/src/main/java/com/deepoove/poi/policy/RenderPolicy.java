@@ -31,7 +31,8 @@ public interface RenderPolicy {
      * @param eleTemplate template tag
      * @param data        render data
      * @param template    XWPFTemplate instance
+	 * @param dataContext data context
      */
-    void render(ElementTemplate eleTemplate, Object data, XWPFTemplate template);
+    void render(ElementTemplate eleTemplate, Object data, XWPFTemplate template, Object dataContext);
 
 }

@@ -15,23 +15,6 @@
  */
 package com.deepoove.poi;
 
-import java.io.Closeable;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Collections;
-import java.util.List;
-
-import org.apache.poi.openxml4j.exceptions.OLE2NotOfficeXmlFileException;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.apache.poi.xwpf.usermodel.XWPFRun;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.deepoove.poi.config.Configure;
 import com.deepoove.poi.data.DocumentRenderData;
 import com.deepoove.poi.data.style.Style;
@@ -45,6 +28,15 @@ import com.deepoove.poi.template.MetaTemplate;
 import com.deepoove.poi.util.PoitlIOUtils;
 import com.deepoove.poi.util.StyleUtils;
 import com.deepoove.poi.xwpf.NiceXWPFDocument;
+import org.apache.poi.openxml4j.exceptions.OLE2NotOfficeXmlFileException;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.*;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * The facade of word(docx) template
@@ -66,8 +58,39 @@ public class XWPFTemplate implements Closeable {
     private Render renderer;
     private List<MetaTemplate> eleTemplates;
 
-    private XWPFTemplate() {
-    }
+	public NiceXWPFDocument getDoc() {
+		return doc;
+	}
+
+	public void setDoc(NiceXWPFDocument doc) {
+		this.doc = doc;
+	}
+
+	public void setConfig(Configure config) {
+		this.config = config;
+	}
+
+	public void setResolver(Resolver resolver) {
+		this.resolver = resolver;
+	}
+
+	public Render getRenderer() {
+		return renderer;
+	}
+
+	public void setRenderer(Render renderer) {
+		this.renderer = renderer;
+	}
+
+	public List<MetaTemplate> getEleTemplates() {
+		return eleTemplates;
+	}
+
+	public void setEleTemplates(List<MetaTemplate> eleTemplates) {
+		this.eleTemplates = eleTemplates;
+	}
+
+	//去掉构造器私有，可以被外部创建和子类继承
 
     /**
      * Compile template from absolute file path

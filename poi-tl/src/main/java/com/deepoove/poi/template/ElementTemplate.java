@@ -27,6 +27,8 @@ public abstract class ElementTemplate implements MetaTemplate {
     protected Character sign;
     protected String tagName;
     protected String source;
+	protected String filter;
+	protected String dataContextKey = "dataContext";
 
     public ElementTemplate() {
     }
@@ -61,7 +63,23 @@ public abstract class ElementTemplate implements MetaTemplate {
         this.sign = sign;
     }
 
-    @Override
+	public String getFilter() {
+		return filter;
+	}
+
+	public void setFilter(String filter) {
+		this.filter = filter;
+	}
+
+	public String getDataContextKey() {
+		return dataContextKey;
+	}
+
+	public void setDataContextKey(String dataContextKey) {
+		this.dataContextKey = dataContextKey;
+	}
+
+	@Override
     public String toString() {
         return source;
     }

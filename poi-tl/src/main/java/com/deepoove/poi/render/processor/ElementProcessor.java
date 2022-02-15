@@ -73,7 +73,11 @@ public class ElementProcessor extends DefaultTemplateProcessor {
         if (policy instanceof DocxRenderPolicy) return;
         logger.info("Start render Template {}, Sign:{}, policy:{}", eleTemplate, eleTemplate.getSign(),
                 ClassUtils.getShortClassName(policy.getClass()));
-        policy.render(eleTemplate, renderDataCompute.compute(eleTemplate.getTagName()), template);
+		Object data = renderDataCompute.compute(eleTemplate.getTagName());
+		if (Objects.nonNull(eleTemplate.getFilter())) {
+			data = Objects.nonNull(renderDataCompute.compute(eleTemplate.getFilter())) ? renderDataCompute.compute(eleTemplate.getFilter()) : data;
+		}
+		policy.render(eleTemplate, data, template, renderDataCompute.compute(eleTemplate.getDataContextKey()));
     }
 
 }

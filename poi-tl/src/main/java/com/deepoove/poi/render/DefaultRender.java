@@ -111,7 +111,7 @@ public class DefaultRender implements Render {
 
                 LOGGER.info("Start render TemplateName:{}, Sign:{}, policy:{}", runTemplate.getTagName(),
                         runTemplate.getSign(), ClassUtils.getShortClassName(policy.getClass()));
-                policy.render(runTemplate, renderDataCompute.compute(runTemplate.getTagName()), template);
+				policy.render(runTemplate, renderDataCompute.compute(runTemplate.getTagName()), template, renderDataCompute.compute(runTemplate.getDataContextKey()));
 
                 if (current != template.getXWPFDocument()) {
                     current = template.getXWPFDocument();

@@ -36,12 +36,14 @@ public class RenderContext<T> {
     private final T data;
     private final XWPFTemplate template;
     private final WhereDelegate where;
+	private final Object dataContext;
 
-    public RenderContext(ElementTemplate eleTemplate, T data, XWPFTemplate template) {
+    public RenderContext(ElementTemplate eleTemplate, T data, XWPFTemplate template, Object dataContext) {
         this.eleTemplate = eleTemplate;
         this.data = data;
         this.template = template;
-        where = new WhereDelegate(((RunTemplate) this.eleTemplate).getRun());
+        this.where = new WhereDelegate(((RunTemplate) this.eleTemplate).getRun());
+		this.dataContext = dataContext;
     }
 
     public ElementTemplate getEleTemplate() {
@@ -89,4 +91,7 @@ public class RenderContext<T> {
         return getEleTemplate().getSource();
     }
 
+	public Object getDataContext() {
+		return dataContext;
+	}
 }

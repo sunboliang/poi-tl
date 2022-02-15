@@ -40,7 +40,7 @@ public abstract class AbstractRenderPolicy<T> implements RenderPolicy {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void render(ElementTemplate eleTemplate, Object data, XWPFTemplate template) {
+    public void render(ElementTemplate eleTemplate, Object data, XWPFTemplate template, Object dataContext) {
         // type safe
         T model = null;
         try {
@@ -49,7 +49,7 @@ public abstract class AbstractRenderPolicy<T> implements RenderPolicy {
             throw new RenderException("Error Render Data format for template: " + eleTemplate.getSource(), e);
         }
 
-        RenderContext<T> context = new RenderContext<T>(eleTemplate, model, template);
+        RenderContext<T> context = new RenderContext<T>(eleTemplate, model, template, dataContext);
         try {
             // validate
             if (!validate(model)) {

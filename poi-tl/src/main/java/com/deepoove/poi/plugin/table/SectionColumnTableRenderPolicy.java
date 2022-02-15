@@ -41,7 +41,7 @@ import com.deepoove.poi.util.TableTools;
 public class SectionColumnTableRenderPolicy implements RenderPolicy {
 
     @Override
-    public void render(ElementTemplate eleTemplate, Object data, XWPFTemplate template) {
+    public void render(ElementTemplate eleTemplate, Object data, XWPFTemplate template, Object dataContext) {
         RunTemplate runTemplate = (RunTemplate) eleTemplate;
         XWPFRun run = runTemplate.getRun();
         try {

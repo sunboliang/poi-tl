@@ -59,7 +59,7 @@ public class TocTest {
 
             @SuppressWarnings("deprecation")
             @Override
-            public void render(ElementTemplate eleTemplate, Object data, XWPFTemplate template) {
+            public void render(ElementTemplate eleTemplate, Object data, XWPFTemplate template, Object dataContext) {
                 XWPFRun run = ((RunTemplate) eleTemplate).getRun();
                 run.setText("", 0);
                 XWPFParagraph tocPara = run.getParagraph();

@@ -17,6 +17,7 @@
 package com.deepoove.poi.render.processor;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,11 +42,15 @@ public abstract class AbstractIterableProcessor extends DefaultTemplateProcessor
     public void visit(IterableTemplate iterableTemplate) {
         BodyContainer bodyContainer = BodyContainerFactory.getBodyContainer(iterableTemplate);
         Object compute = renderDataCompute.compute(iterableTemplate.getStartMark().getTagName());
+		Object dataContext = renderDataCompute.compute(iterableTemplate.getStartMark().getDataContextKey());
+		if (Objects.nonNull(iterableTemplate.getStartMark().getFilter())) {
+			compute = Objects.nonNull(renderDataCompute.compute(iterableTemplate.getStartMark().getFilter())) ? renderDataCompute.compute(iterableTemplate.getStartMark().getFilter()) : compute;
+		}
 
         if (null == compute || (compute instanceof Boolean && !(Boolean) compute)) {
             handleNever(iterableTemplate, bodyContainer);
         } else if (compute instanceof Iterable) {
-            handleIterable(iterableTemplate, bodyContainer, (Iterable<?>) compute);
+            handleIterable(iterableTemplate, bodyContainer, (Iterable<?>) compute, dataContext);
         } else {
             if (compute instanceof Boolean && (Boolean) compute) {
                 handleOnceWithScope(iterableTemplate, renderDataCompute);
@@ -65,7 +70,7 @@ public abstract class AbstractIterableProcessor extends DefaultTemplateProcessor
     protected abstract void handleNever(IterableTemplate iterableTemplate, BodyContainer bodyContainer);
 
     protected abstract void handleIterable(IterableTemplate iterableTemplate, BodyContainer bodyContainer,
-            Iterable<?> compute);
+            Iterable<?> compute, Object dataContext);
 
     protected void handleOnce(IterableTemplate iterableTemplate, Object compute) {
         process(iterableTemplate.getTemplates(), compute);

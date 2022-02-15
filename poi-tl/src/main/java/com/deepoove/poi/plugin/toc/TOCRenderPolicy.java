@@ -32,7 +32,7 @@ import com.deepoove.poi.xwpf.XWPFOnOff;
 public class TOCRenderPolicy implements RenderPolicy {
 
     @Override
-    public void render(ElementTemplate eleTemplate, Object data, XWPFTemplate template) {
+    public void render(ElementTemplate eleTemplate, Object data, XWPFTemplate template, Object dataContext) {
         XWPFRun run = ((RunTemplate) eleTemplate).getRun();
         run.setText("", 0);
 

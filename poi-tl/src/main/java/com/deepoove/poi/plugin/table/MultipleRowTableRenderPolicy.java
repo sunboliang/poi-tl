@@ -70,7 +70,7 @@ public class MultipleRowTableRenderPolicy implements RenderPolicy {
     }
 
     @Override
-    public void render(ElementTemplate eleTemplate, Object data, XWPFTemplate template) {
+    public void render(ElementTemplate eleTemplate, Object data, XWPFTemplate template, Object dataContext) {
         try {
             RunTemplate runTemplate = cast2runTemplate(eleTemplate);
             XWPFRun run = runTemplate.getRun();

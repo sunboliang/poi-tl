@@ -80,7 +80,7 @@ public class IterableProcessor extends AbstractIterableProcessor {
     }
 
     @Override
-    protected void handleIterable(IterableTemplate iterableTemplate, BodyContainer bodyContainer, Iterable<?> compute) {
+    protected void handleIterable(IterableTemplate iterableTemplate, BodyContainer bodyContainer, Iterable<?> compute, Object dataContext) {
         CTP startCtp = ((XWPFParagraph) iterableTemplate.getStartRun().getParent()).getCTP();
         CTP endCtp = ((XWPFParagraph) iterableTemplate.getEndRun().getParent()).getCTP();
 
@@ -90,7 +90,7 @@ public class IterableProcessor extends AbstractIterableProcessor {
         NumberingContinue numbringContinue = NumberingContinue.of(bodyContainer, startPos, endPos, iterableTemplate);
         IterableContext context = new IterableContext(startPos, endPos, numbringContinue);
 
-        EnvIterator.foreach(compute.iterator(), model -> next(iterableTemplate, bodyContainer, context, model));
+		EnvIterator.foreach(iterableTemplate, compute.iterator(), dataContext, model -> next(iterableTemplate, bodyContainer, context, model));
 
         // clear self iterable template
         for (int i = endPos - 1; i > startPos; i--) {

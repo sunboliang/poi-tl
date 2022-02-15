@@ -64,7 +64,7 @@ public class InlineIterableProcessor extends AbstractIterableProcessor {
     }
 
     @Override
-    protected void handleIterable(IterableTemplate iterableTemplate, BodyContainer bodyContainer, Iterable<?> compute) {
+    protected void handleIterable(IterableTemplate iterableTemplate, BodyContainer bodyContainer, Iterable<?> compute, Object dataContext) {
         RunTemplate start = iterableTemplate.getStartMark();
         RunTemplate end = iterableTemplate.getEndMark();
         RunBodyContext parentContext = new ParagraphContext(
@@ -74,7 +74,7 @@ public class InlineIterableProcessor extends AbstractIterableProcessor {
         Integer endRunPos = end.getRunPos();
         IterableContext context = new IterableContext(startRunPos, endRunPos);
 
-        EnvIterator.foreach(compute.iterator(), model -> next(iterableTemplate, parentContext, context, model));
+		EnvIterator.foreach(iterableTemplate ,compute.iterator(), dataContext, model -> next(iterableTemplate, parentContext, context, model));
 
         // clear self iterable template
         for (int i = endRunPos - 1; i > startRunPos; i--) {

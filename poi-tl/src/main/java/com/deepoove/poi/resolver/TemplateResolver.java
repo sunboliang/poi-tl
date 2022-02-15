@@ -303,6 +303,12 @@ public class TemplateResolver extends AbstractResolver {
     ElementTemplate parseTemplateFactory(String text, Object obj, XWPFRun run) {
         if (null == text) return null;
         ElementTemplate elementTemplate = null;
+		final String[] textAndFilter = text.split("\\|");
+		String filter = null;
+		if (textAndFilter.length == 2) {
+			filter = textAndFilter[1].substring(0, textAndFilter[1].length() - config.getGramerSuffix().length());
+			text = textAndFilter[0] + config.getGramerSuffix();
+		}
         if (templatePattern.matcher(text).matches()) {
             String shortClassName = ClassUtils.getShortClassName(obj.getClass());
             String tag = gramerPattern.matcher(text).replaceAll("").trim();
@@ -319,6 +325,7 @@ public class TemplateResolver extends AbstractResolver {
                         (XWPFChart) obj, run);
             }
             if (null != elementTemplate) {
+				elementTemplate.setFilter(filter);
                 logger.debug("Resolve where text: {}, and create {} for {}", text,
                         ClassUtils.getShortClassName(elementTemplate.getClass()), shortClassName);
             }

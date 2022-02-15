@@ -21,27 +21,33 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import com.deepoove.poi.render.compute.EnvModel;
+import com.deepoove.poi.template.IterableTemplate;
 
 public class EnvIterator {
 
-    public static void foreach(Iterator<?> iterator, Consumer<EnvModel> consumer) {
-        int index = 0;
-        boolean hasNext = iterator.hasNext();
-        while (hasNext) {
-            Object root = iterator.next();
-            hasNext = iterator.hasNext();
-            consumer.accept(EnvModel.of(root, makeEnv(index++, hasNext)));
+	public static void foreach(IterableTemplate iterableTemplate, Iterator<?> iterator, Object dataContext, Consumer<EnvModel> consumer) {
+		int index = 0;
+		boolean hasNext = iterator.hasNext();
+		while (hasNext) {
+			Object root = iterator.next();
+			hasNext = iterator.hasNext();
+			final Map<String, Object> env = makeEnv(++index, hasNext);
+			env.put(iterableTemplate.getStartMark().getDataContextKey(), dataContext);
+
+			env.put(iterableTemplate.getStartMark().getTagName(), env);
+			consumer.accept(EnvModel.of(root, env));
         }
     }
 
     public static Map<String, Object> makeEnv(int index, boolean hasNext) {
         Map<String, Object> env = new HashMap<>();
-        env.put("_is_first", index == 0);
+        env.put("_is_first", index == 1);
         env.put("_is_last", !hasNext);
         env.put("_has_next", hasNext);
         env.put("_is_even_item", index % 2 == 1);
         env.put("_is_odd_item", index % 2 == 0);
         env.put("_index", index);
+		env.put("index", index);
         return env;
     }
 
